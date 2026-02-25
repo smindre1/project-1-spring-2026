@@ -1,7 +1,5 @@
-// Do not change this file other than adding header files
-// if needed.
-// You can also comment parts of the functions, and uncomment
-// as you add more functionality.
+// This is a file meant to be run to test the points2d.h functionality.
+// refer to test_input_file.txt and expected_output.txt for what the test inputs and expected outputs should be.
 #include <points2d.h>
 
 #include <array>
@@ -69,7 +67,7 @@ void TestPart2() {
 } // namespace
 
 int main(int argc, char **argv) {
-    //TestPart1();
+    TestPart1();
     TestPart2();
     return 0;
 }

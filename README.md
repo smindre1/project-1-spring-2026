@@ -1,17 +1,28 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=9916143&assignment_repo_type=AssignmentRepo)
 # Assignment 1
+By Shane Mindreau - 2/24/2026
 
-## Information about the repository
+## Assignment Completion
 
-This repository contains the following:
-- Starter code: `points2d.h`, `test_points2d.cc`,`test_input_file.txt`, `expected_output.txt`, `Makefile` and `README.md`
-- Assignment specification: `Spring23-Assignment1.pdf`
+Test 1: Testing the big five (13/14)
+Test 1: Testing overloading operators (8/9)
+Test 2: Testing the big five (12/14)
+Test 2: Testing overloading operators (4/9)
+Test 3: Testing the big five (8/14)
+
+The assignment was completed, however, because of some unknown formatting issues with << and >> operators, and other function formatting, I was not able to get 100% from gradescope. These issues were due to not being properly informed on how the assignment should be formatted, because even though I matched what the tests were looking for in outputs I still had points deducted.
+
+## Bugs I encountered
+
+I encountered some bugs of mismatching data types of the array carrying integers, doubles, and being a pointer making it unable to transform into another data type. This was a relatively easy fix.
+
+I also encountered a few stringstream bugs where manipulating the stringstream needed to be corrected.
+
+The biggest bug is gradescope not explaining why points were deducted when my output matched exactly what they were looking for, which is very upsetting.
+
 
 ## Running the assignment
 
-You will use this exact `Makefile` for your Assignment 1. Failure to do so will result in *deduction* of points.
-
-To compile on terminal, type:
+You will use `Makefile` to compile on the terminal. To do this type in the terminal:
 
 ```bash
 make clean

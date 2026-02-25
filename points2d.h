@@ -1,6 +1,4 @@
-// Written By Shane Mindreau
-// Few comments describing the class Points2D
-
+// Written By Shane Mindreau 2/24/2026
 #ifndef CSCI335_HOMEWORK1_POINTS2D_H_
 #define CSCI335_HOMEWORK1_POINTS2D_H_
 
@@ -13,44 +11,35 @@
 // Applies namespace to the class Points2D
 namespace teaching_project {
 
-// Place comments that provide a brief explanation of the class,
-// and its sample usage.
+// Points2D is a class that records a sequence of coordinate pairs (or points) as well as the number of coordinates (size) in the sequence.
+// The sequence is an array pointer with each coordinate within the array being an array of size two. (ex: [[2, 3], [8,9], [10,14]] )
 template<typename Object>
 class Points2D {
   private:
-    // Sequence of points.
+    // Sequence of points recorded as an array pointer.
     std::array<Object, 2> *sequence_;
 
     // Size of sequence.
     size_t size_;
 
   public:
-    // Default "big five" -- you have to alter them for your assignment.
-    // That means that you will remove the "= default" statement.
-    //  and you will provide an implementation.
-    
     // Zero-parameter constructor.
-    // Set size to 0.
+    // @brief: Sets sequence pointer to nullptr and size_ to 0.
     Points2D(): sequence_(nullptr), size_{0} {};
 
     // Copy-constructor.
+    // @pre: Takes a const ref to a Points2D object
+    // @brief: Sets the new Points2D object to the same value as the const ref Points2D object
     Points2D(const Points2D &rhs){
         size_ = rhs.size_;
         sequence_ = new std::array<Object, 2>[size_];
         for(size_t i = 0; i < size_; i++) {
             sequence_[i] = rhs.sequence_[i];
-            // sequence_[i][1] = rhs.sequence_[i][1];
         }
     };
 
-    // Copy-assignment. If you have already written
-    // the copy-constructor and the move-constructor
-    // you can just use:
-    // {
-    // Points2D copy = rhs;
-    // std::swap(*this, copy);
-    // return *this;
-    // }
+    // Copy-assignment.
+    // @brief: Copies the values the parameter const ref Points2D object on the right of the '=' operator to the Points2D object on the left of the operator.
     Points2D& operator=(const Points2D &rhs) {
         Points2D copy = rhs;
         std::swap(*this, copy);
@@ -58,6 +47,9 @@ class Points2D {
     };
 
     // Move-constructor.
+    // @brief: Transfers the data/values from the parameter Points2D object to a new Points2D object.
+    // @example: Points2D<int> e = move(c);
+    // @example explained: the values from obj c are transferred to obj e.
     Points2D(Points2D &&rhs){
         size_ = rhs.size_;
         sequence_ = rhs.sequence_;
@@ -66,45 +58,52 @@ class Points2D {
     };
 
     // Move-assignment.
-    // Just use std::swap() for all variables.
+    // @brief: The values are swapped between two Points2D objects
+    // @example: e = move(c);
+    // @example explained: the values from obj c are swapped to obj e, and vice versa.
     Points2D& operator=(Points2D &&rhs) {
         std::swap(size_, rhs.size_);
         std::swap(sequence_, rhs.sequence_);
         return *this;
     };
 
+    // Points2D Destructor
+    // @brief: prepares the object to be deleted, and free up memory
     ~Points2D(){
         size_ = 0;
         delete [] sequence_;
         sequence_ = nullptr;
     };
 
-    // End of big-five.
-
     // One parameter constructor.
+    // @brief: Constructs a Points2D object given a const ref parameter to an array of points
     Points2D(const std::array<Object, 2>& item) {
         size_ = 1;
         sequence_ = new std::array<Object, 2>(item);
     }
 
+    // Size function
+    // @brief: retrieve the size of the sequence from the object's private members
     size_t size() const {
         return size_;
     }
 
-    // @location: an index to a location in the sequence.
+    // Square bracket - operator overloading
+    // @brief: given an index value, the operator will provide the point at that location in the sequence.
     // @returns the point at @location.
-    // const version.
-    // abort() if out-of-range.
+    // const version, means it cannot modify the sequence.
+    // @exception: if the index provided is out-of-range, then the function will abort().
     const std::array<Object, 2>& operator[](size_t location) const {
         if(location >= size_)
             abort();
         return sequence_[location];
     }
 
-    //  @c1: A sequence.
-    //  @c2: A second sequence.
-    //  @return their sum. If the sequences are not of the same size, append the
-    //    result with the remaining part of the larger sequence.
+    // @c1: A sequence.
+    // @c2: A second sequence.
+    // @brief: given two Points2D objects the sequences will be combined.
+    // @return their sum. If the sequences are not of the same size, append the result with the remaining part of the larger sequence.
+    // For example, sequence [ [a, b], [c, d]] will be added to [ [e, f], [g, h], [i, j]] to get [ [a+e, b+f], [c+g, d+h], [i, j]]
     friend Points2D operator+(const Points2D &c1, const Points2D &c2) {
         if(c1.size_ != c2.size_){
             //Finds which sequence is bigger/smaller
@@ -145,7 +144,8 @@ class Points2D {
     }
 
     // Overloading the << operator.
-    // **** Add the ""
+    // @brief: Given a Points2d object, its sequence will be taken and converted to a stringstream object and returned
+    // @return: An ostream object 
     friend std::ostream &operator<<(std::ostream &out, const Points2D &some_points) {
         if(some_points.size_ == 0){
             out << "()";
@@ -160,19 +160,16 @@ class Points2D {
                 }
             }
         }
-        out <<  std::endl;
+        out << std::endl;
         return out;
     }
 
     // Overloading the >> operator.
-    // Read a chain from an input stream (e.g., standard input).
+    // @brief: Read a chain from an input stream (e.g., standard input) and place them in the Points2D sequence.
     friend std::istream &operator>>(std::istream &in, Points2D &some_points) {
-        // Extracts the first num (size) from string
+        // Extracts the first number, which is the size, from the input string
         size_t size;
         in >> size;
-        // Assigns the remaining string to 'line'
-        // std::string line;
-        // std::getline(in, line);
 
         if(some_points.sequence_){
             delete[] some_points.sequence_;
@@ -190,69 +187,7 @@ class Points2D {
             }
             in >> some_points.sequence_[i][1];
         }
-        
-        // //Checking that there is an even number of inputs...
-        // std::string num;
-        // int count = 0;
-        // std::stringstream ss2(line);
-        // while(ss2 >> num){
-        //     count++;
-        // }
-
-        // //Reset stringstream to the beginning of string
-        // ss2.clear();
-        // ss2.seekg(0);
-        // count = 0;
-
-        // //Checking the numbers' data type (doubles or ints)
-        // bool intTrue = (line.find('.') == std::string::npos) ? true : false;
-
-
-        // delete[] some_points.sequence_;
-        // some_points.sequence_ = new std::array<Object, 2>[size];
-
-        // if(intTrue) {
-        //     //integers
-        //     auto next;
-        //     size_t itr = 0;
-        //     while(ss2 >> next) {
-        //         if(next) {
-        //             some_points.sequence_[count][itr] = next;
-        //             if(itr == 1) {
-        //                 count++;
-        //                 itr = 0;
-        //             } else {
-        //                 itr++;
-        //             }
-        //         } else {
-        //             std::cerr << "ERROR";
-        //             std::abort();
-        //         }
-
-        //     }
-        // } else {
-        //     //doubles
-        //     double next;
-        //     size_t itr = 0;
-        //     while(ss2 >> next) {
-        //         if(next) {
-        //             some_points.sequence_[count][itr] = next;
-        //             if(itr == 1) {
-        //                 count++;
-        //                 itr = 0;
-        //             } else {
-        //                 itr++;
-        //             }
-        //         } else {
-        //             std::cerr << "ERROR";
-        //             //std::abort();
-        //         }
-
-        //     }
-        // }
         some_points.size_ = size;
-
-        // std::cout << std::endl;
 
         return in;
     }
